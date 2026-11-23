@@ -1,0 +1,83 @@
+media:
+  input: media
+  output: /salaparuta-calcio/media
+content:
+  - name: sito
+    label: Testi e immagine della home
+    type: file
+    path: data/site.json
+    format: json
+    fields:
+      - name: title
+        label: Titolo principale
+        type: string
+      - name: intro
+        label: Introduzione
+        type: text
+      - name: hero_image
+        label: Foto di copertina
+        type: image
+  - name: notizie
+    label: Notizie e SalaSport
+    type: file
+    path: data/articles.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: Identificativo (univoco)
+        type: uuid
+      - name: title
+        label: Titolo
+        type: string
+      - name: date
+        label: Data
+        type: date
+      - name: category
+        label: Categoria
+        type: select
+        options:
+          values:
+            - name: societa
+              label: Società
+            - name: giovanili
+              label: Giovanili
+      - name: image
+        label: Immagine
+        type: image
+      - name: body
+        label: Testo articolo
+        type: text
+      - name: published
+        label: Pubblicato
+        type: boolean
+  - name: partite
+    label: Calendari e risultati
+    type: file
+    path: data/matches.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: Identificativo (univoco)
+        type: uuid
+      - name: team
+        label: Categoria
+        type: select
+        options:
+          values: [Pulcini, Esordienti, Under 15, Under 17]
+      - name: date
+        label: Data partita
+        type: date
+      - name: home
+        label: Squadra di casa
+        type: string
+      - name: away
+        label: Squadra ospite
+        type: string
+      - name: homeScore
+        label: Gol casa (vuoto se non disputata)
+        type: string
+      - name: awayScore
+        label: Gol ospite (vuoto se non disputata)
+        type: string
