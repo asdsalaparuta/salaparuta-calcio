@@ -52,6 +52,21 @@ async function loadPublishedContent(){
     const [articles,matches,settings]=await Promise.all([load('data/articles.json'),load('data/matches.json'),load('data/site.json')]);
     state.articles=Array.isArray(articles)?articles.filter(x=>x.published!==false):[];
     state.matches=Array.isArray(matches)?matches:[];
+     // Il logo e indipendente dalla fotografia di copertina.
+     // Se il CMS non ha ancora un valore, usa lo stemma ufficiale predefinito.
+     const logoPath = String(settings.logo_image || 'media/logo-salaparuta.png').trim();
+     if (logoPath && !/^javascript:/i.test(logoPath)) {
+       document.querySelectorAll('.site-header .crest, footer .crest-footer').forEach(holder => {
+         const img = document.createElement('img');
+         img.className = 'crest-logo-img';
+         img.alt = '';
+         img.src = logoPath;
+         img.decoding = 'async';
+         img.onerror = () => { img.remove(); holder.classList.remove('crest-has-logo'); };
+         holder.appendChild(img);
+         holder.classList.add('crest-has-logo');
+       });
+     }
     if(settings.title){const t=$('#hero-title');t.textContent=settings.title;}
     if(settings.intro){const e=document.querySelector('.hero .hero-lead, .hero p');if(e)e.textContent=settings.intro;}
     if(settings.hero_image){const hero=document.querySelector('.hero');if(hero){const im=document.createElement('img');im.src=settings.hero_image;im.alt='Fotografia della squadra';im.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.25;pointer-events:none';hero.style.position='relative';hero.insertBefore(im,hero.firstChild);}}
