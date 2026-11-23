@@ -25,3 +25,81 @@
   height: auto;
 }.crest.crest-has-logo > :not(.crest-logo-img) {display:none;}
 .crest.crest-has-logo .crest-logo-img {width:100%;height:100%;object-fit:contain;display:block;border-radius:50%;}
+/* Fotografie delle squadre in dissolvenza */
+
+.team-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Immagine inizialmente invisibile */
+.team-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.05);
+  opacity: 0;
+  transition: opacity .5s ease, transform .6s ease;
+  z-index: 0;
+}
+
+/* Fotografie delle due categorie */
+.team-card:nth-child(1)::before {
+  background-image: url("media/pulcini.jpg");
+}
+
+.team-card:nth-child(2)::before {
+  background-image: url("media/esordienti.jpg");
+}
+
+/* Velo scuro per mantenere leggibili le scritte */
+.team-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.65),
+    rgba(0,0,0,.10)
+  );
+  border-radius: 0;
+  opacity: 0;
+  z-index: 1;
+  transition: opacity .5s ease;
+}
+
+/* Testi sempre in primo piano */
+.team-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Passaggio del mouse */
+.team-card:hover::before,
+.team-card:focus-visible::before {
+  opacity: .48;
+  transform: scale(1);
+}
+
+.team-card:hover::after,
+.team-card:focus-visible::after {
+  opacity: 1;
+}
+
+/* Su dispositivi senza mouse */
+@media (hover: none) {
+  .team-card::before {
+    opacity: .25;
+  }
+
+  .team-card::after {
+    opacity: .7;
+  }
+}
