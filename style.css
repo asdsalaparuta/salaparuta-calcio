@@ -13,5 +13,15 @@
 
 /* Logo ufficiale, sostituibile dal campo Logo della società di Pages CMS */
 .crest.crest-has-logo {border:0;box-shadow:none;overflow:visible;background:none;}
-.crest.crest-has-logo > :not(.crest-logo-img) {display:none;}
+/* Logo ufficiale ingrandito */
+.brand .crest.crest-has-logo {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+.nav-row {
+  min-height: 110px;
+  height: auto;
+}.crest.crest-has-logo > :not(.crest-logo-img) {display:none;}
 .crest.crest-has-logo .crest-logo-img {width:100%;height:100%;object-fit:contain;display:block;border-radius:50%;}
