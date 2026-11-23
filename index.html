@@ -104,7 +104,7 @@ $$('.team-card').forEach(c=>{const run=()=>openModal('Le nostre squadre', $('h3'
 $$('.news-card').forEach(c=>{const run=()=>openModal($('.news-meta',c)?.textContent||'Notizie', $('h3',c).textContent,$('p',c)?.textContent||'Contenuto in preparazione.');c.addEventListener('click',run);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run();}});});
 function renderMatches(){
 $$('[data-team]').forEach(b=>b.classList.toggle('is-active',b.dataset.team===selectedTeam));
-let items=state.matches.filter(x=>selectedTeam==='Tutte'||x.team===selectedTeam).sort((a,b)=>b.date.localeCompare(a.date));
+let items=state.matches.filter(x=>selectedTeam==='Tutte'||String(x.team||'').toLowerCase()===selectedTeam.toLowerCase()).sort((a,b)=>b.date.localeCompare(a.date));
 $('#match-list').innerHTML=items.length?items.map(m=>`<div class="match-item"><div class="eyeline">${safe(m.team)} · ${safe(fmtDate(m.date))}</div><h3>${safe(m.home)} <span style="color:#ff277a">VS</span> ${safe(m.away)}</h3><div class="score">${m.homeScore!==''&&m.awayScore!==''?safe(m.homeScore)+' – '+safe(m.awayScore):'Da disputare'}</div><p>Calendario ufficiale pubblicato dalla società</p></div>`).join(''):'<div class="empty-state" style="grid-column:1/-1">Non ci sono ancora partite pubblicate in questa categoria. Puoi aggiungerne dal pannello di gestione.</div>';
 }
 $$('[data-team]').forEach(b=>b.addEventListener('click',()=>{selectedTeam=b.dataset.team;renderMatches();}));
@@ -113,10 +113,16 @@ $$('[data-filter]').forEach(b=>{const on=b.dataset.filter===newsFilter;b.classLi
 $$('.news-card').forEach(c=>c.hidden=newsFilter!=='tutte'&&c.dataset.category!==newsFilter);
 let target=$('#dynamic-news');if(!target){target=document.createElement('div');target.id='dynamic-news';target.className='dynamic-news';target.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:28px';const base=$('.news-card')?.parentElement;base?.insertAdjacentElement('afterend',target);}
 const found=state.articles.filter(a=>newsFilter==='tutte'||a.category===newsFilter);
-target.innerHTML=found.map(a=>`<article class="news-card" style="padding:24px;border:1px solid #eee;border-radius:12px;background:#fff" tabindex="0" role="button" data-article-id="${safe(a.id)}">${a.image?`<img src="${safe(a.image)}" alt="" loading="lazy" style="width:100%;height:170px;object-fit:cover;border-radius:8px;margin-bottom:16px">`:``}<div class="news-meta">${a.category==='societa'?'SOCIETÀ':'GIOVANILI'} · ${safe(a.date||'NOTIZIA')}</div><h3>${safe(a.title)}</h3><p>${safe(a.body.slice(0,140))}${a.body.length>140?'…':''}</p><p class="click-tip">Clicca per leggere →</p></article>`).join('');
+target.innerHTML=found.map(a=>`<article class="news-card" style="padding:24px;border:1px solid #eee;border-radius:12px;background:#fff" tabindex="0" role="button" data-article-id="${safe(a.id)}">${a.image?`<img src="${safe(a.image)}" alt="" loading="lazy" style="width:100%;height:170px;object-fit:cover;border-radius:8px;margin-bottom:16px">`:``}<div class="news-meta">${a.category==='societa'?'SOCIETÀ':'GIOVANILI'} · ${safe(a.date||'NOTIZIA')}</div><h3>${safe(a.title)}</h3><p>${safe(String(a.body||'').slice(0,140))}${String(a.body||'').length>140?'…':''}</p><p class="click-tip">Clicca per leggere →</p></article>`).join('');
 $$('[data-article-id]',target).forEach(card=>{const run=()=>{const a=state.articles.find(x=>x.id===card.dataset.articleId);if(a)openModal(a.category==='societa'?'Società':'Giovanili',a.title,a.body);};card.addEventListener('click',run);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run();}});});
 }
 $$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{newsFilter=b.dataset.filter;renderArticles();}));
+// Aggiorna le sezioni dinamiche usando i dati salvati da Pages CMS.
+function renderAll(){
+  renderMatches();
+  renderArticles();
+}
+
 // Public data lives in GitHub files edited with Pages CMS.
 async function loadPublishedContent(){
   const load=async path=>{const r=await fetch(path+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error(path+' HTTP '+r.status);return r.json()};
