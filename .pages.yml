@@ -17,6 +17,9 @@ content:
       - name: hero_image
         label: Foto di copertina
         type: image
+      - name: logo_image
+        label: Logo della società (versione normale o speciale)
+        type: image
   - name: notizie
     label: Notizie e SalaSport
     type: file
