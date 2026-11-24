@@ -22,7 +22,33 @@ const teamInfo={
 'ESORDIENTI':'Tecnica, divertimento e spirito di squadra. La scheda sarà completata con i dati e le fotografie autorizzate.',
 'UNDER 15':'Una fase importante di crescita sportiva. Qui potremo raccogliere convocazioni pubblicabili, calendario e risultati.',
 'UNDER 17':'Il percorso verso il calcio dei grandi: formazione, impegno e passione. Qui potremo pubblicare partite e cronache.'};
-$$('.team-card').forEach(c=>{const run=()=>openModal('Le nostre squadre', $('h3',c).textContent,teamInfo[$('h3',c).textContent]||'Scheda in preparazione.');c.addEventListener('click',run);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run();}});});
+
+$$('.team-card').forEach(c => {
+  const run = () => {
+    const squadra = $('h3', c).textContent.trim();
+
+    if (squadra === 'ESORDIENTI') {
+      window.location.href = 'esordienti.html';
+      return;
+    }
+
+    openModal(
+      'Le nostre squadre',
+      squadra,
+      teamInfo[squadra] || 'Scheda in preparazione.'
+    );
+  };
+
+  c.addEventListener('click', run);
+
+  c.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      run();
+    }
+  });
+});
+
 $$('.news-card').forEach(c=>{const run=()=>openModal($('.news-meta',c)?.textContent||'Notizie', $('h3',c).textContent,$('p',c)?.textContent||'Contenuto in preparazione.');c.addEventListener('click',run);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run();}});});
 function renderMatches(){
 $$('[data-team]').forEach(b=>b.classList.toggle('is-active',b.dataset.team===selectedTeam));
