@@ -55,7 +55,7 @@ content:
         label: Pubblicato
         type: boolean
   - name: partite
-    label: Calendari e risultati
+    label: Calendari e risultati (homepage)
     type: file
     path: data/matches.json
     format: json
@@ -84,3 +84,168 @@ content:
       - name: awayScore
         label: Gol ospite (vuoto se non disputata)
         type: string
+  - name: esordienti_scheda
+    label: "Esordienti - Presentazione e staff"
+    type: file
+    path: data/esordienti.json
+    format: json
+    fields:
+      - name: season
+        label: Stagione
+        type: string
+      - name: title
+        label: Titolo
+        type: string
+      - name: description
+        label: Presentazione
+        type: text
+      - name: team_image
+        label: Foto di squadra (copertina)
+        type: image
+      - name: coach
+        label: Allenatore
+        type: string
+      - name: coach_image
+        label: Foto allenatore
+        type: image
+      - name: assistant
+        label: Collaboratore tecnico
+        type: string
+      - name: manager
+        label: Dirigente accompagnatore
+        type: string
+  - name: esordienti_rosa
+    label: "Esordienti - Rosa e statistiche"
+    type: file
+    path: data/esordienti-rosa.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: Identificativo
+        type: uuid
+      - name: name
+        label: Nome giocatore da pubblicare
+        type: string
+      - name: number
+        label: Numero maglia
+        type: string
+      - name: role
+        label: Ruolo
+        type: select
+        options:
+          values: [Portiere, Difensore, Centrocampista, Attaccante, Jolly]
+      - name: image
+        label: Foto giocatore
+        type: image
+      - name: appearances
+        label: Presenze
+        type: number
+        options: {min: 0}
+      - name: goals
+        label: Gol
+        type: number
+        options: {min: 0}
+      - name: assists
+        label: Assist
+        type: number
+        options: {min: 0}
+      - name: yellows
+        label: Ammonizioni
+        type: number
+        options: {min: 0}
+      - name: reds
+        label: Espulsioni
+        type: number
+        options: {min: 0}
+      - name: visible
+        label: Visibile sul sito (solo con consenso)
+        type: boolean
+  - name: esordienti_calendario
+    label: "Esordienti - Calendario e marcatori"
+    type: file
+    path: data/esordienti-partite.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: Identificativo
+        type: uuid
+      - name: round
+        label: Giornata (numero)
+        type: number
+        options: {min: 1}
+      - name: date
+        label: Data (se nota)
+        type: date
+      - name: time
+        label: Ora (es. 10:30)
+        type: string
+      - name: home
+        label: Squadra di casa
+        type: string
+      - name: home_logo
+        label: Logo squadra di casa
+        type: image
+      - name: away
+        label: Squadra ospite
+        type: string
+      - name: away_logo
+        label: Logo squadra ospite
+        type: image
+      - name: home_score
+        label: Gol casa (lascia vuoto prima della partita)
+        type: string
+      - name: away_score
+        label: Gol ospite (lascia vuoto prima della partita)
+        type: string
+      - name: venue
+        label: Campo / localita
+        type: string
+      - name: status
+        label: Stato
+        type: select
+        options:
+          values: [Programmata, Disputata, Rinviata]
+      - name: scorers
+        label: Marcatori della partita
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{player} - {team}"
+        fields:
+          - name: player
+            label: Marcatore
+            type: string
+          - name: team
+            label: Squadra
+            type: string
+          - name: minute
+            label: Minuto (opzionale)
+            type: string
+      - name: notes
+        label: Note sulla partita
+        type: text
+  - name: esordienti_galleria
+    label: "Esordienti - Galleria fotografica"
+    type: file
+    path: data/esordienti-galleria.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: Identificativo
+        type: uuid
+      - name: image
+        label: Fotografia
+        type: image
+      - name: caption
+        label: Didascalia
+        type: string
+      - name: date
+        label: Data (facoltativa)
+        type: date
+      - name: visible
+        label: Visibile (solo con autorizzazioni)
+        type: boolean
