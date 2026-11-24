@@ -50,7 +50,60 @@ $$('.team-card').forEach(c => {
 });
 
 $$('.news-card').forEach(c=>{const run=()=>openModal($('.news-meta',c)?.textContent||'Notizie', $('h3',c).textContent,$('p',c)?.textContent||'Contenuto in preparazione.');c.addEventListener('click',run);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run();}});});
-function renderMatches(){
+
+function renderMatches() {
+  $$('[data-team]').forEach(b =>
+    b.classList.toggle('is-active', b.dataset.team === selectedTeam)
+  );
+
+  const items = state.matches
+    .filter(m =>
+      selectedTeam === 'Tutte' ||
+      String(m.team || '').toLowerCase() === selectedTeam.toLowerCase()
+    )
+    .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+
+  const logo = (src, squadra) => src
+    ? `<img class="match-logo" src="${safe(src)}" alt="Logo ${safe(squadra)}" loading="lazy">`
+    : `<span class="match-logo-placeholder">⚽</span>`;
+
+  $('#match-list').innerHTML = items.length
+    ? items.map(m => {
+        const giocata =
+          m.homeScore !== '' && m.awayScore !== '' &&
+          m.homeScore != null && m.awayScore != null;
+
+        const risultato = giocata
+          ? `${safe(m.homeScore)} – ${safe(m.awayScore)}`
+          : 'VS';
+
+        return `
+          <article class="match-item">
+            <div class="match-meta">
+              <span>${safe(m.team)}</span>
+              <span>${safe(fmtDate(m.date))}</span>
+            </div>
+
+            <div class="match-row">
+              <div class="match-team match-home">
+                <span>${safe(m.home)}</span>
+                ${logo(m.home_logo, m.home)}
+              </div>
+
+              <div class="match-score">${risultato}</div>
+
+              <div class="match-team match-away">
+                ${logo(m.away_logo, m.away)}
+                <span>${safe(m.away)}</span>
+              </div>
+            </div>
+          </article>`;
+      }).join('')
+    : `<div class="empty-state">
+         Non ci sono ancora partite pubblicate in questa categoria.
+       </div>`;
+}
+
 $$('[data-team]').forEach(b=>b.classList.toggle('is-active',b.dataset.team===selectedTeam));
 let items=state.matches.filter(x=>selectedTeam==='Tutte'||String(x.team||'').toLowerCase()===selectedTeam.toLowerCase()).sort((a,b)=>b.date.localeCompare(a.date));
 $('#match-list').innerHTML=items.length?items.map(m=>`<div class="match-item"><div class="eyeline">${safe(m.team)} · ${safe(fmtDate(m.date))}</div><h3>${safe(m.home)} <span style="color:#ff277a">VS</span> ${safe(m.away)}</h3><div class="score">${m.homeScore!==''&&m.awayScore!==''?safe(m.homeScore)+' – '+safe(m.awayScore):'Da disputare'}</div><p>Calendario ufficiale pubblicato dalla società</p></div>`).join(''):'<div class="empty-state" style="grid-column:1/-1">Non ci sono ancora partite pubblicate in questa categoria. Puoi aggiungerne dal pannello di gestione.</div>';
