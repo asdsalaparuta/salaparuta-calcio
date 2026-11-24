@@ -170,3 +170,26 @@
     padding: 24px;
   }
 }
+
+/* HOMEPAGE - Immagine completa e semitrasparente */
+
+.hero .hero-art {
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.55;
+}
+
+/* Sfondo scuro per evidenziare le scritte */
+.hero {
+  background-color: #100e13;
+}
+
+/* Adattamento smartphone */
+@media (max-width: 760px) {
+  .hero .hero-art {
+    background-size: contain;
+    background-position: center center;
+    opacity: 0.65;
+  }
+}
