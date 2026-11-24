@@ -381,3 +381,119 @@
     font-size:clamp(38px, 10vw, 54px);
   }
 }
+
+/* RISULTATI - ELENCO ORIZZONTALE DEFINITIVO */
+
+.match-center .match-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.match-center .match-item {
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 16px 22px !important;
+  margin: 0 !important;
+  border-radius: 3px !important;
+  background: #262027 !important;
+  border: 1px solid #483743 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.match-center .match-item::before,
+.match-center .match-item::after {
+  display: none !important;
+}
+
+.match-center .match-item:hover {
+  background: #352735 !important;
+}
+
+.match-center .match-meta {
+  display: flex !important;
+  justify-content: space-between !important;
+  margin: 0 0 10px !important;
+  color: #ff8db8 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+.match-center .match-row {
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+
+.match-center .match-team {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: white !important;
+}
+
+.match-center .match-home {
+  justify-content: flex-end !important;
+  text-align: right;
+}
+
+.match-center .match-away {
+  justify-content: flex-start !important;
+}
+
+.match-center .match-score {
+  display: block !important;
+  min-width: 90px !important;
+  padding: 10px !important;
+  background: #ff277a !important;
+  border: 0 !important;
+  border-radius: 3px !important;
+  color: white !important;
+  text-align: center !important;
+  font: 900 29px/1 'Barlow Condensed', Arial, sans-serif !important;
+  white-space: nowrap;
+}
+
+.match-center .match-logo,
+.match-center .match-logo-placeholder {
+  width: 42px !important;
+  height: 42px !important;
+  flex: 0 0 42px !important;
+  object-fit: contain;
+}
+
+/* Smartphone */
+@media (max-width: 650px) {
+  .match-center .match-item {
+    padding: 13px 9px !important;
+  }
+
+  .match-center .match-row {
+    gap: 5px !important;
+  }
+
+  .match-center .match-team {
+    font-size: 11px !important;
+    gap: 5px !important;
+  }
+
+  .match-center .match-score {
+    min-width: 57px !important;
+    padding: 9px 4px !important;
+    font-size: 22px !important;
+  }
+
+  .match-center .match-logo,
+  .match-center .match-logo-placeholder {
+    width: 28px !important;
+    height: 28px !important;
+    flex-basis: 28px !important;
+  }
+}
