@@ -249,7 +249,7 @@ content:
       - name: visible
         label: Visibile (solo con autorizzazioni)
         type: boolean
- - name: pulcini_scheda
+  - name: pulcini_scheda
     label: "Pulcini - Presentazione e staff"
     type: file
     path: data/pulcini.json
