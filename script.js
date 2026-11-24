@@ -103,11 +103,6 @@ function renderMatches() {
          Non ci sono ancora partite pubblicate in questa categoria.
        </div>`;
 }
-
-$$('[data-team]').forEach(b=>b.classList.toggle('is-active',b.dataset.team===selectedTeam));
-let items=state.matches.filter(x=>selectedTeam==='Tutte'||String(x.team||'').toLowerCase()===selectedTeam.toLowerCase()).sort((a,b)=>b.date.localeCompare(a.date));
-$('#match-list').innerHTML=items.length?items.map(m=>`<div class="match-item"><div class="eyeline">${safe(m.team)} · ${safe(fmtDate(m.date))}</div><h3>${safe(m.home)} <span style="color:#ff277a">VS</span> ${safe(m.away)}</h3><div class="score">${m.homeScore!==''&&m.awayScore!==''?safe(m.homeScore)+' – '+safe(m.awayScore):'Da disputare'}</div><p>Calendario ufficiale pubblicato dalla società</p></div>`).join(''):'<div class="empty-state" style="grid-column:1/-1">Non ci sono ancora partite pubblicate in questa categoria. Puoi aggiungerne dal pannello di gestione.</div>';
-}
 $$('[data-team]').forEach(b=>b.addEventListener('click',()=>{selectedTeam=b.dataset.team;renderMatches();}));
 function renderArticles(){
 $$('[data-filter]').forEach(b=>{const on=b.dataset.filter===newsFilter;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));});
