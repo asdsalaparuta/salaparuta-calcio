@@ -95,7 +95,16 @@ async function loadPublishedContent(){
      }
     if(settings.title){const t=$('#hero-title');t.textContent=settings.title;}
     if(settings.intro){const e=document.querySelector('.hero .hero-lead, .hero p');if(e)e.textContent=settings.intro;}
-    if(settings.hero_image){const hero=document.querySelector('.hero');if(hero){const im=document.createElement('img');im.src=settings.hero_image;im.alt='Fotografia della squadra';im.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.25;pointer-events:none';hero.style.position='relative';hero.insertBefore(im,hero.firstChild);}}
+    
+if (settings.hero_image) {
+  const heroArt = document.querySelector('.hero-art');
+
+  if (heroArt) {
+    heroArt.style.backgroundImage =
+      `url("${settings.hero_image}")`;
+  }
+}
+
     renderAll();
   }catch(e){console.error('Impossibile caricare i contenuti pubblicati:',e);}
 }
